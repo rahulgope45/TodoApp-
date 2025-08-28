@@ -30,6 +30,24 @@ class _MyWidgetState extends State<TodoScreen> {
         
         
       ),
+
+      body: Center(
+        child: ElevatedButton(
+          onPressed: (){
+            print("You have Pressed Adding Button");
+
+          }, 
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.orange[200],
+            padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 16)
+          ),
+          child: 
+          Icon((Icons.add)
+          
+          ),
+          
+          ),
+      ),
     );
   }
 } 
