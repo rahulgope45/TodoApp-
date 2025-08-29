@@ -8,6 +8,27 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<TodoScreen> { 
+
+final TextEditingController _textController = TextEditingController();
+
+
+//storing tasks
+final List<String> _tasks = [];
+
+//Onsubmit functions 
+void _submitAdd(BuildContext context){
+  final  text = _textController.text.trim();
+  if(text.isNotEmpty){
+    setState(() {
+      _tasks.add(text);
+    });
+  }
+}
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +53,19 @@ class _MyWidgetState extends State<TodoScreen> {
       ),
 
       body: Center(
-        child: ElevatedButton(
+        child: Row(children: [
+          Expanded(child: TextField(
+            controller: _textController,
+            autofocus: true,
+            decoration: InputDecoration(
+              hintText: "New Task" ,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12)
+              )
+            ),
+            onSubmitted: (_)=> _submitAdd(context),
+          )),
+          ElevatedButton(
           onPressed: (){
             print("You have Pressed Adding Button");
 
@@ -45,8 +78,10 @@ class _MyWidgetState extends State<TodoScreen> {
           Icon((Icons.add)
           
           ),
-          
+           
           ),
+        ],)
+        
       ),
     );
   }
