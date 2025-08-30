@@ -4,86 +4,108 @@ class TodoScreen extends StatefulWidget {
   const TodoScreen({super.key});
 
   @override
-  State<TodoScreen> createState() => _MyWidgetState();
+  State<TodoScreen> createState() => _TodoScreenState();
 }
 
-class _MyWidgetState extends State<TodoScreen> { 
+class _TodoScreenState extends State<TodoScreen> {
+  final TextEditingController _textController = TextEditingController();
+  final List<String> _tasks = [];
 
-final TextEditingController _textController = TextEditingController();
-
-
-//storing tasks
-final List<String> _tasks = [];
-
-//Onsubmit functions 
-void _submitAdd(BuildContext context){
-  final  text = _textController.text.trim();
-  if(text.isNotEmpty){
-    setState(() {
-      _tasks.add(text);
-    });
-    _textController.clear();
+  void _submitAdd(BuildContext context) {
+    final text = _textController.text.trim();
+    if (text.isNotEmpty) {
+      setState(() {
+        _tasks.add(text);
+      });
+      _textController.clear();
+    }
   }
-}
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellowAccent[100], 
+      backgroundColor: Colors.yellowAccent[100],
       appBar: AppBar(
-        title: Text("Your Tasks",
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black,
-        
-        ),
-        
+        title: const Text(
+          "Your Tasks",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
         ),
         backgroundColor: Colors.yellowAccent[100],
-        bottom: const PreferredSize(preferredSize: Size.fromHeight(2), 
-        child: Divider(
-          color: Colors.black,
-          thickness: 2,
-          height: 2,
-        )
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(2),
+          child: Divider(
+            color: Colors.black,
+            thickness: 2,
+            height: 2,
+          ),
         ),
-        
-        
       ),
 
-      body: Center(
-        child: Row(children: [
-          Expanded(child: TextField(
-            controller: _textController,
-            autofocus: true,
-            decoration: InputDecoration(
-              hintText: "New Task" ,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12)
-              )
-            ),
-            onSubmitted: (_)=> _submitAdd(context), 
-          )), 
-          ElevatedButton( 
-          onPressed: (){
-            print("You have Pressed Adding Button");
+      // ✅ This makes the screen resize when the keyboard appears
+      resizeToAvoidBottomInset: true,
 
-          }, 
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.orange[200],
-            padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 16)
-          ),
-          child: 
-          Icon((Icons.add)
-          
-          ),
-           
-          ),
-        ],)
-        
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Task list at the top
+            Expanded(
+              child: _tasks.isEmpty
+                  ? const Center(
+                      child: Text(
+                        "No Task yet",
+                        style: TextStyle(fontSize: 18, color: Colors.black54),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: _tasks.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          child: ListTile(
+                            title: Text(_tasks[index]),
+                          ),
+                        );
+                      },
+                    ),
+            ),
+
+            // ✅ Input box + button at the bottom, moves with keyboard
+            Padding(
+              padding: EdgeInsets.only(
+                left: 8,
+                right: 8,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 8, // moves with keyboard
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _textController,
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        hintText: "New Task",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      onSubmitted: (_) => _submitAdd(context),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () => _submitAdd(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange[200],
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    ),
+                    child: const Icon(Icons.add),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
-} 
+}
