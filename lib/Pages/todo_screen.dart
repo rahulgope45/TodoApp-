@@ -22,6 +22,7 @@ void _submitAdd(BuildContext context){
     setState(() {
       _tasks.add(text);
     });
+    _textController.clear();
   }
 }
 
@@ -63,9 +64,9 @@ void _submitAdd(BuildContext context){
                 borderRadius: BorderRadius.circular(12)
               )
             ),
-            onSubmitted: (_)=> _submitAdd(context),
-          )),
-          ElevatedButton(
+            onSubmitted: (_)=> _submitAdd(context), 
+          )), 
+          ElevatedButton( 
           onPressed: (){
             print("You have Pressed Adding Button");
 
