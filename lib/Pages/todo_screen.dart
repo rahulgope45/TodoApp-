@@ -63,8 +63,17 @@ class _TodoScreenState extends State<TodoScreen> {
                           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           child: ListTile(
                             title: Text(_tasks[index]),
+                            trailing: IconButton(
+                              onPressed: (){
+                                setState(() {
+                                  _tasks.remove(index);
+                                });
+                              },
+                               icon: const Icon(Icons.delete)),
                           ),
+                        
                         );
+                        
                       },
                     ),
             ),
