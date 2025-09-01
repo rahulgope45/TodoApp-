@@ -66,8 +66,8 @@ class _TodoScreenState extends State<TodoScreen> {
                             trailing: IconButton(
                               onPressed: (){
                                 setState(() {
-                                  _tasks.remove(index);
-                                });
+                                  _tasks.removeAt(index);
+                                }); 
                               },
                                icon: const Icon(Icons.delete)),
                           ),
@@ -77,7 +77,7 @@ class _TodoScreenState extends State<TodoScreen> {
                       },
                     ),
             ),
-
+                                                                             
             // ✅ Input box + button at the bottom, moves with keyboard
             Padding(
               padding: EdgeInsets.only(
