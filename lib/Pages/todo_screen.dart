@@ -65,7 +65,7 @@ class _TodoScreenState extends State<TodoScreen> {
                             horizontal: 12, vertical: 6),
                         child: ListTile(
                           title: Text(
-                            "${index + 1}.${task["title"]}",//added Numbering for the tasks
+                            "${index + 1})  ${task["title"]}",//added Numbering for the tasks
                             style: TextStyle(
                               decoration: task["done"]
                               ? TextDecoration.lineThrough
