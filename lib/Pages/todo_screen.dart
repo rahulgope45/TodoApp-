@@ -10,6 +10,7 @@ class TodoScreen extends StatefulWidget {
 class _TodoScreenState extends State<TodoScreen> {
   final TextEditingController _textController = TextEditingController();
   final List<String> _tasks = [];
+  int? _selectedTaskIndex; //Store the Selected task index
 
   void _submitAdd(BuildContext context) {
     final text = _textController.text.trim();
@@ -44,16 +45,24 @@ class _TodoScreenState extends State<TodoScreen> {
       // ✅ This makes the screen resize when the keyboard appears
       resizeToAvoidBottomInset: true,
 
-      body: SafeArea(
+      body: RadioGroup<int>(
+        groupValue: _selectedTaskIndex,
+        onChanged: (value) {
+          setState(() {
+            _selectedTaskIndex = value;
+          });
+        },
         child: Column(
           children: [
             // Task list at the top
             Expanded(
               child: _tasks.isEmpty
-                  ? const Center(
+                  ? const Center( 
                       child: Text(
                         "No Task yet",
-                        style: TextStyle(fontSize: 18, color: Colors.black54),
+                        
+                        style: TextStyle(
+                          fontSize: 18, color: Colors.black,),
                       ),
                     )
                   : ListView.builder(
@@ -63,13 +72,31 @@ class _TodoScreenState extends State<TodoScreen> {
                           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           child: ListTile(
                             title: Text(_tasks[index]),
-                            trailing: IconButton(
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
                               onPressed: (){
                                 setState(() {
                                   _tasks.removeAt(index);
                                 }); 
                               },
                                icon: const Icon(Icons.delete)),
+                               Radio<bool>(
+                                value: true,
+                                groupValue: false,
+                                onChanged: (value) {
+                                  
+                                  setState(() {
+                                    print("Task ${_tasks[index]} selected");
+                                  });
+                                },
+                                )
+
+                              ],
+                            ) 
+                               
+                               
                           ),
                         
                         );
