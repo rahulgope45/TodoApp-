@@ -32,7 +32,7 @@ class _TodoScreenState extends State<TodoScreen> {
           style: TextStyle(
             fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
         ),
-        backgroundColor: Colors.yellowAccent[100],
+        backgroundColor: const Color.fromARGB(255, 165, 216, 92),
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(2),
           child: Divider(
