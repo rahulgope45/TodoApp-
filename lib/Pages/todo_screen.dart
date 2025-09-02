@@ -133,7 +133,7 @@ class _TodoScreenState extends State<TodoScreen> {
                   ElevatedButton(
                     onPressed: () => _submitAdd(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange[200],
+                      backgroundColor: const Color.fromARGB(255, 240, 198, 135),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 16),
                     ),
