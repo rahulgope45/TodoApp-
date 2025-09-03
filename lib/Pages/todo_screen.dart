@@ -1,4 +1,8 @@
+
+
 import 'package:flutter/material.dart';
+import '../services/task_storage.dart';
+
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({super.key});
@@ -9,8 +13,28 @@ class TodoScreen extends StatefulWidget {
 
 class _TodoScreenState extends State<TodoScreen> {
   final TextEditingController _textController = TextEditingController();
-  final List<Map<String, dynamic>> _tasks = [];
+   List<Map<String, dynamic>> _tasks = [];
   int? _selectedTaskIndex; // Store the selected task index
+
+  //Loading from local Storage
+  @override
+  void initState(){
+    super.initState(); 
+    _loadTasks();
+
+  }  
+
+  void _loadTasks() async{
+    final tasks = await TaskStorage.loadTasks();
+    setState(() {
+      _tasks = tasks;
+      
+    });
+  }
+
+  void _saveTasks(){
+    TaskStorage.saveTasks(_tasks);
+  }
 
   void _submitAdd(BuildContext context) {
     final text = _textController.text.trim();
@@ -18,9 +42,12 @@ class _TodoScreenState extends State<TodoScreen> {
       setState(() {
         _tasks.add({"title": text, "done": false});
       });
+      _saveTasks();
       _textController.clear(); 
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +112,7 @@ class _TodoScreenState extends State<TodoScreen> {
                                   setState(() {
                                     task["done"] =checked ?? false;
                                   });
+                                   _saveTasks();
                                 }
                                 ),
 
@@ -97,6 +125,7 @@ class _TodoScreenState extends State<TodoScreen> {
                                   _selectedTaskIndex = null; // clear selection if deleted
                                 }
                               });
+                               _saveTasks();
                             },
                             icon: const Icon(Icons.delete),
                           ),
